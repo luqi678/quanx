@@ -1,0 +1,13 @@
+{
+    "id": "luqi.app.sub",
+    "name": "陆七 脚本订阅",
+    "description": "该订阅兼容BoxJs以及QX Gallery",
+    "author": "@luqi678",
+    "icon": "https://avatars2.githubusercontent.com/u/53217160",
+    "repo": "https://github.com/luqi678/quanx.git",
+    "remark":"task为qx任务，apps为boxjs订阅",
+    "apps":
+    [],
+    "task":
+    []
+}
