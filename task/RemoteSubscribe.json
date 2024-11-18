@@ -5,9 +5,15 @@
     "author": "@luqi678",
     "icon": "https://avatars2.githubusercontent.com/u/53217160",
     "repo": "https://github.com/luqi678/quanx.git",
-    "remark":"task为qx任务，apps为boxjs订阅",
+    "remark": "task为qx任务，apps为boxjs订阅",
     "apps":
     [],
     "task":
-    []
+    [
+        {
+            "remark": "飞兔订阅",
+            "config": "0 6 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/FeiTuSign.js, img-url=https://github.com/luqi678/quanx/blob/main/file/logo/FeiTu.png, tag=飞兔签到, enabled=true",
+            "addons": ""
+        }
+    ]
 }
