@@ -84,67 +84,90 @@ const headerPv = {
 // 任务签到
 $.post({url: "https://activity.10010.com/sixPalaceGridTurntableLottery/task/taskList?type=2", headers: headerEcs,
     method: 'GET'},
-    (err, resp, data) => {
-    try {
-        let res = JSON.parse(data);
-        if (res.code === '0000') {
-            //循环任务列表
-            res.data.tagList.forEach(item => {
-                $.log("开始" + item.tagName);
-                item.taskDTOList.forEach(task => {
-                    completeTask(task);
-                })
-            })
-        } else {
-            $.msg("联通签到失败", "获取任务列表失败", "");
+    async (err, resp, data) => {
+        try {
+            let res = JSON.parse(data);
+            if (res.code === '0000') {
+                //循环任务列表
+                for (const item of res.data.tagList) {
+                    $.log("开始" + item.tagName);
+                    for (const task of item.taskDTOList) {
+                        await completeTask(task);
+                    }
+                }
+            } else {
+                $.msg("联通签到失败", "获取任务列表失败", "");
+            }
+        } catch (e) {
+            $.log(e);
+            $.msg("联通签到失败", "详情", e); // Error!e
+        } finally {
+            $.done();
         }
-    } catch (e) {
-        $.log(e);
-        $.msg("联通签到失败", "详情", e); // Error!e
-    } finally {
-    }
-})
+    })
 
 
-function completeTask({id, taskName,buttonName, orderId }) {
+async function completeTask({id, taskName, buttonName, orderId}) {
     if (buttonName === "去领取") {
         //领取奖励
-        $.post({
+        let reward = await postPromise({
+            url: `https://activity.10010.com/sixPalaceGridTurntableLottery/task/getTaskReward?taskId=${id}`,
+            headers: headerPv,
+            method: 'GET'
+        });
+        let rewardObj = JSON.parse(reward);
+        if (rewardObj.code === '0000') {
+            $.log("*  " + taskName + "  签到" + rewardObj.data.statusDesc + (rewardObj.data.code === '0000' ? rewardObj.data.prizeNameRed : rewardObj.data.desc));
+        } else {
+            $.log(reward);
+        }
+    } else if (buttonName === "已完成") {
+        $.log("*  " + taskName + "  签到已完成");
+    } else {
+
+        let complete = await postPromise({
+            url: `https://activity.10010.com/sixPalaceGridTurntableLottery/task/completeTask?taskId=${id}&orderId=&systemCode=QDQD`,
+            headers: headerEcs,
+            method: 'GET'
+        });
+        let completeObj = JSON.parse(complete);
+        if (completeObj.code === '0000' || completeObj.code === '0311') {
+            //完成任务 领取奖励
+            await setTimeout(() => {
+                $.log("*  等待两秒");
+            }, 1000); // 2000 毫秒 = 2 秒
+            let reward = await postPromise({
                 url: `https://activity.10010.com/sixPalaceGridTurntableLottery/task/getTaskReward?taskId=${id}`,
                 headers: headerPv,
-                method: 'GET'},
-            (err, resp, data) => {
-                try {
-                    let res = JSON.parse(data);
-                    if (res.code === '0000') {
-                        $.log("*  " + taskName + "  签到" + res.data.statusDesc + (res.data.code === '0000' ? res.data.prizeNameRed : res.data.desc));
-                    } else {
-                        $.log(data);
-                    }
-                } catch (e) {
-                    $.log(e);
-                    $.msg("联通签到失败", "详情", e); // Error!e
-                } finally {
-                }
+                method: 'GET'
             })
-    }else if (buttonName === "已完成") {
-        $.log("*  " + taskName + "  签到已完成");
-    }else {
-        $.post({
+            let rewardObj = JSON.parse(reward);
+            if (rewardObj.code === '0000') {
+                $.log("*  " + taskName + "  签到" + rewardObj.data.statusDesc + (rewardObj.data.code === '0000' ? rewardObj.data.prizeNameRed : rewardObj.data.desc));
+            } else {
+                $.log(reward);
+            }
+        } else {
+            $.log("*  " + taskName + "  签到任务失败" + completeObj.desc);
+        }
+
+
+
+        await $.post({
                 url: `https://activity.10010.com/sixPalaceGridTurntableLottery/task/completeTask?taskId=${id}&orderId=&systemCode=QDQD`,
                 headers: headerEcs,
                 method: 'GET'
             },
-            (err, resp, data) => {
+            async (err, resp, data) => {
                 try {
                     let res = JSON.parse(data);
                     if (res.code === '0000' || res.code === '0311') {
                         //完成任务 领取奖励
-                        setTimeout(() => {
+                        await setTimeout(() => {
                             $.log("*  等待两秒");
                         }, 2000); // 2000 毫秒 = 2 秒
 
-                        $.post({
+                        await $.post({
                                 url: `https://activity.10010.com/sixPalaceGridTurntableLottery/task/getTaskReward?taskId=${id}`,
                                 headers: headerPv,
                                 method: 'GET'
@@ -174,6 +197,21 @@ function completeTask({id, taskName,buttonName, orderId }) {
             });
     }
 }
+
+
+async function postPromise(request) {
+    return new Promise((resolve, reject) => {
+        $.post(request, (err, resp, data) => {
+            if (err) {
+                reject(err); // 如果出错，Promise reject
+            } else {
+                resolve(data); // 成功时，Promise resolve 返回响应和正文
+            }
+        });
+    });
+}
+
+
 
 function Env(name, opts) {
     class Http {
