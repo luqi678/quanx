@@ -57,7 +57,7 @@ $.post({url:"https://interface.music.163.com/api/vip-center-bff/task/sign",heade
 (err, resp, data) => {
     try {
         let res = JSON.parse(data);
-        if (res.code !== '200') {
+        if (res.code !== 200) {
             $.msg("网易云签到失败", "每日签到结束", "");
             $.log(data);
         } else {
@@ -67,11 +67,12 @@ $.post({url:"https://interface.music.163.com/api/vip-center-bff/task/sign",heade
         $.log(e);
         $.msg("网易云签到失败", "详情", e); // Error!e
     } finally {
+        $.done()
+        $.msg("网易云签到", "签到成功", "");
     }
 });
 
-$.done()
-$.msg("网易云签到", "签到成功", "");
+
 
 
 
