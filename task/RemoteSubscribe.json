@@ -17,17 +17,17 @@
         },
         {
             "remark": "顺丰速运签到 sysd_data",
-            "config": "3 0 0 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/ShunFenSign.js, tag=顺丰速运签到, img-url=https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/sfsy.png, enabled=true",
+            "config": "0 1 6 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/ShunFenSign.js, tag=顺丰速运签到, img-url=https://raw.githubusercontent.com/Sliverkiss/QuantumultX/main/icon/sfsy.png, enabled=true",
             "addons": ""
         },
         {
             "remark": "联通APP日常签到",
-            "config": "3 0 0 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/TeletemSign.js, tag=联通APP日常签到, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png, enabled=true",
+            "config": "0 2 6 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/TeletemSign.js, tag=联通APP日常签到, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png, enabled=true",
             "addons": ""
         },
         {
             "remark": "网易云vip签到",
-            "config": "3 0 0 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/CloudMusic.js, tag=网易云vip签到, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/neteasemusic.png, enabled=true",
+            "config": "0 3 6 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/CloudMusic.js, tag=网易云vip签到, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/neteasemusic.png, enabled=true",
             "addons": ""
         }
     ]
