@@ -62,6 +62,7 @@ const headerPv = {
     'Referer': 'https://img.client.10010.com/',
 };
 
+
 // 每日签到
 // $.post({url:"https://activity.10010.com/sixPalaceGridTurntableLottery/signin/daySign",headers:headerPv,
 //     method: 'POST'},
@@ -102,6 +103,7 @@ $.post({url: "https://activity.10010.com/sixPalaceGridTurntableLottery/task/task
             $.log(e);
             $.msg("联通签到失败", "详情", e); // Error!e
         } finally {
+            $.msg("联通APP签到", "签到成功", "");
             $.done();
         }
     })
@@ -150,8 +152,6 @@ async function completeTask({id, taskName, buttonName, orderId}) {
         } else {
             $.log("*  " + taskName + "  签到任务失败" + completeObj.desc);
         }
-
-
 
         await $.post({
                 url: `https://activity.10010.com/sixPalaceGridTurntableLottery/task/completeTask?taskId=${id}&orderId=&systemCode=QDQD`,
