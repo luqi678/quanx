@@ -7,7 +7,38 @@
     "repo": "https://github.com/luqi678/quanx.git",
     "remark": "task为qx任务，apps为boxjs订阅",
     "apps":
-    [],
+    [
+        {
+            "id": "teletemSign",
+            "name": "联通APP日常签到",
+            "keys":
+            [
+                "TeletemSign"
+            ],
+            "descs_html":
+            [
+                "<h4 align=\"center\">脚本配置请查看<a href=\"https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/TeletemSign.js\">脚本注释</a></h4>"
+            ],
+            "settings":
+            [
+                {
+                    "id": "teletemSign_dailySign",
+                    "name": "日常签到",
+                    "val": false,
+                    "type": "boolean",
+                    "desc": ""
+                }
+            ],
+            "script": "https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/TeletemSign.js",
+            "author": "@Luqi",
+            "repo": "https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/TeletemSign.js",
+            "icons":
+            [
+                "https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png",
+                "https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png"
+            ]
+        }
+    ],
     "task":
     [
         {
