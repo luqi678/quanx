@@ -37,6 +37,37 @@
                 "https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png",
                 "https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png"
             ]
+        },
+        {
+            "id": "wps_luqi",
+            "name": "WPS签到",
+            "keys":
+            [
+                "wps_pc_val",
+                "wps_pc_val_1"
+            ],
+            "descs_html":
+            [
+                "<h4 align=\"center\">脚本配置请查看<a href=\"https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/wps_1.js\">脚本注释</a></h4>"
+            ],
+            "settings":
+            [
+                {
+                    "id": "teletemSign_dailySign",
+                    "name": "日常签到",
+                    "val": false,
+                    "type": "boolean",
+                    "desc": ""
+                }
+            ],
+            "script": "https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/wps_1.js",
+            "author": "@Luqi",
+            "repo": "https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/wps_1.js",
+            "icons":
+            [
+                "https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Universal/Microsoft.png",
+                "https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Universal/Microsoft.png"
+            ]
         }
     ],
     "task":
@@ -59,6 +90,11 @@
         {
             "remark": "网易云vip签到",
             "config": "0 3 6 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/CloudMusic.js, tag=网易云vip签到, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/neteasemusic.png, enabled=true",
+            "addons": ""
+        },
+        {
+            "remark": "WPS_1签到",
+            "config": "0 4 6 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/wps_1.js, tag=WPS_1签到, img-url=https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Universal/Microsoft.png, enabled=true",
             "addons": ""
         }
     ]
