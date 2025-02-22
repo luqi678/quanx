@@ -69,6 +69,37 @@
                 "https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Universal/Microsoft.png",
                 "https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Universal/Microsoft.png"
             ]
+        },
+        {
+            "id": "debugDemo",
+            "name": "调试示例",
+            "keys":
+            [
+                "textValue",
+                "boolValue"
+            ],
+            "descs_html":
+            [
+                "<h4 align=\"center\">脚本配置请查看<a href=\"https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/debugDemo.js\">脚本注释</a></h4>"
+            ],
+            "settings":
+            [
+                {
+                    "id": "boolValue",
+                    "name": "Boolean值",
+                    "val": false,
+                    "type": "boolean",
+                    "desc": ""
+                }
+            ],
+            "script": "https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/debugDemo.js",
+            "author": "@Luqi",
+            "repo": "https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/debugDemo.js",
+            "icons":
+            [
+                "https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Universal/Microsoft.png",
+                "https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Universal/Microsoft.png"
+            ]
         }
     ],
     "task":
@@ -96,6 +127,11 @@
         {
             "remark": "WPS_1签到",
             "config": "0 4 6 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/wps_1.js, tag=WPS_1签到, img-url=https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Universal/Microsoft.png, enabled=true",
+            "addons": ""
+        },
+        {
+            "remark": "调试示例",
+            "config": "0 0 0 * * 2024 https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/debugDemo.js, tag=调试示例, img-url=https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Universal/Microsoft.png, enabled=false",
             "addons": ""
         }
     ]
