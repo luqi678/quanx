@@ -28,7 +28,8 @@ hostname = *.wps.cn
  */
 const $ = new Env("联通日常签到");
 const _key = '@YaYa_10010.cookie';
-const ckval = $.toObj($.getEnv(_key));
+// const ckval = $.toObj($.getEnv(_key));
+const ckval = $.getEnv(_key);
 console.log(ckval);
 // $.is_debug = 'true-'
 // $.messages = [];
