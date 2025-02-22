@@ -13,7 +13,8 @@
             "name": "联通APP日常签到",
             "keys":
             [
-                "TeletemSign"
+                "TeletemSign",
+                "@YaYa_10010.cookie"
             ],
             "descs_html":
             [

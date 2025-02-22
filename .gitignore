@@ -1,0 +1,49 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+
+# Java (IntelliJ IDEA / Maven / Gradle / JDK)
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+*.ipr
+*.iws
+target/
+out/
+.idea/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VSCode
+.vscode/
+
+# IntelliJ IDEA
+*.idea/
+*.iml
+*.iws
+out/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# JetBrains IDE
+.idea/
+
+# Logs
+*.log
+*.log.*
+
+# Other files to ignore
+*.bak
+*.swp
+*.swo
+*.tmp
+*.temp

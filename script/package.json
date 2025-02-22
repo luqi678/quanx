@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "got": "^11.8.6",
+    "iconv-lite": "^0.6.3",
+    "tough-cookie": "^5.1.1"
+  },
+  "name": "script",
+  "version": "1.0.0",
+  "main": "CloudMusic.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
