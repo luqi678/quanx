@@ -131,7 +131,7 @@
         },
         {
             "remark": "调试示例",
-            "config": "0 0 0 * * 2024 https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/debugDemo.js, tag=调试示例, img-url=https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Universal/Microsoft.png, enabled=false",
+            "config": "0 0 0 * * 2024 https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/debugDemo.js, tag=调试示例, img-url=https://raw.githubusercontent.com/Semporia/Hand-Painted-icon/master/Universal/Microsoft.png, enabled=true",
             "addons": ""
         }
     ]
