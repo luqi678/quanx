@@ -14,7 +14,17 @@
             "keys":
             [
                 "TeletemSign",
-                "@YaYa_10010.cookie"
+                "@ChinaUnicom.10010v4.cookie",
+                "@ChinaUnicom.10010v4.token_online",
+                "@ChinaUnicom.10010v4.appId",
+                "@ChinaUnicom.10010v4.debug",
+                "@ChinaUnicom.10010v4.script_only",
+                "@ChinaUnicom.10010v4.config",
+                "@ChinaUnicom.10010v4.new_pkg_notify_disabled",
+                "@ChinaUnicom.10010v4.title",
+                "@ChinaUnicom.10010v4.normal_limited_only",
+                "@ChinaUnicom.10010v4.vars",
+                "@ChinaUnicom.10010v4.desc"
             ],
             "descs_html":
             [
