@@ -91,43 +91,43 @@ const headerDraw = {
 
 
 // 每日签到
-// $.post({url:"https://activity.10010.com/sixPalaceGridTurntableLottery/signin/daySign",headers:headerPv,
-//         method: 'POST'},
-//     (err, resp, data) => {
-//         try {
-//             let res = JSON.parse(data);
-//             if (res.code !== '0000' && res.code !== '0002') {
-//                 $.msg("联通签到失败", "每日签到结束", "");
-//                 $.log(data);
-//             } else {
-//                 $.log( "* 每日签到成功  " + (res.code === '0000' ? res.data.statusDesc + res.data.redSignMessage : res.desc));
-//             }
-//         } catch (e) {
-//             $.log(e);
-//             $.msg("联通签到失败", "详情", e); // Error!e
-//         } finally {
-//         }
-//     });
+$.post({url:"https://activity.10010.com/sixPalaceGridTurntableLottery/signin/daySign",headers:headerPv,
+        method: 'POST'},
+    (err, resp, data) => {
+        try {
+            let res = JSON.parse(data);
+            if (res.code !== '0000' && res.code !== '0002') {
+                $.msg("联通签到失败", "每日签到结束", "");
+                $.log(data);
+            } else {
+                $.log( "* 每日签到成功  " + (res.code === '0000' ? res.data.statusDesc + res.data.redSignMessage : res.desc));
+            }
+        } catch (e) {
+            $.log(e);
+            $.msg("联通签到失败", "详情", e); // Error!e
+        } finally {
+        }
+    });
 
 // 每日登陆领取抽奖
-// $.post({url:"https://epay.10010.com/ci-mcss-party-front/v1/rainbow/unifyDraw?activityId=BKQY2024CJ03&isBigActivity=1&bigActivityId=&bizFrom=225",
-//         headers: headerDraw,
-//         method: 'POST'},
-//     (err, resp, data) => {
-//         try {
-//             let res = JSON.parse(data);
-//             if (res.code !== '0000') {
-//                 $.msg("联通签到失败", "每日登陆结束", "");
-//                 $.log(data);
-//             } else {
-//                 $.log( "*  每日登陆成功  " + res.msg + res.txId);
-//             }
-//         } catch (e) {
-//             $.log(e);
-//             $.msg("联通签到失败", "详情", e); // Error!e
-//         } finally {
-//         }
-//     });
+$.post({url:"https://epay.10010.com/ci-mcss-party-front/v1/rainbow/unifyDraw?activityId=BKQY2024CJ03&isBigActivity=1&bigActivityId=&bizFrom=225",
+        headers: headerDraw,
+        method: 'POST'},
+    (err, resp, data) => {
+        try {
+            let res = JSON.parse(data);
+            if (res.code !== '0000') {
+                $.msg("联通签到失败", "每日登陆结束", "");
+                $.log(data);
+            } else {
+                $.log( "*  每日登陆成功  " + res.msg + res.txId);
+            }
+        } catch (e) {
+            $.log(e);
+            $.msg("联通签到失败", "详情", e); // Error!e
+        } finally {
+        }
+    });
 
 // 任务签到
 $.post({url: "https://activity.10010.com/sixPalaceGridTurntableLottery/task/taskList?type=2", headers: headerEcs,
