@@ -5,10 +5,10 @@
 
 ====================================
 [rewrite_local]
-^https:\/\/(act|m).10010.com\/(SigninApp|SigninApp\/convert\/getTelephone)$ url script-request-header https://raw.githubusercontent.com/wf021325/qx/master/task/prizeConvert.js
+^https:\/\/(act|m).10010.com\/(SigninApp|SigninApp\/convert\/getTelephone)$ url script-request-header https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/prizeConvert.js
 
 [task_local]
-0 0 10/18 * * https://raw.githubusercontent.com/wf021325/qx/master/task/prizeConvert.js, tag=联通余额兑换, enabled=true
+0 0 10/18 * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/prizeConvert.js, tag=联通余额兑换, enabled=true
 
 [mitm]
 hostname = *.10010.com

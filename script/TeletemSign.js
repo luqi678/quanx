@@ -17,10 +17,10 @@ https://raw.githubusercontent.com/githubdulong/Script/master/WPS_checkin.js
 
 ====================================
 [rewrite_local]
-^https:\/\/(vip|account)(userinfo|\.wps\.cn\/p\/auth\/check)$ url script-request-header https://raw.githubusercontent.com/wf021325/qx/master/task/wps.js
+^https:\/\/(vip|account)(userinfo|\.wps\.cn\/p\/auth\/check)$ url script-request-header https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/TeletemSign.js
 
 [task_local]
-1 0 * * * https://raw.githubusercontent.com/wf021325/qx/master/task/wps.js, tag= WPS_PC签到, enabled=true
+1 0 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/TeletemSign.js, tag= WPS_PC签到, enabled=true
 
 [mitm]
 hostname = *.wps.cn
