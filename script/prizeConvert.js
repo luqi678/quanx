@@ -74,6 +74,7 @@ $.post({url:"https://act.10010.com/SigninApp/new_convert/prizeList",headers:head
             $.log(e);
             $.msg("联通余额兑换失败", "详情", e);
         } finally {
+            $.done();
         }
     });
 
