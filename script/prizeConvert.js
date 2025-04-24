@@ -51,7 +51,7 @@ $.post({url:"https://act.10010.com/SigninApp/new_convert/prizeList",headers:head
                 // 遍历所有时间段
                 for (const tab of tabItems) {
                     // 找到"即将开始"的时间段
-                    if (tab.state !== "已结束" || tab.state !== "即将开始") {
+                    if (tab.state !== "已结束" && tab.state !== "即将开始") {
                         // 遍历该时间段的所有商品
                         for (const product of tab.timeLimitQuanListData) {
                             // 找到10元话费充值抵扣券
@@ -68,13 +68,14 @@ $.post({url:"https://act.10010.com/SigninApp/new_convert/prizeList",headers:head
                     generateUUID(targetProduct.product_id);
                 } else {
                     $.msg("联通余额兑换", "未找到可兑换商品", "");
+                    $.done();
                 }
             }
         } catch (e) {
             $.log(e);
             $.msg("联通余额兑换失败", "详情", e);
         } finally {
-            $.done();
+            $.msg("联通查询活动情况结束", "", "");
         }
     });
 
@@ -99,6 +100,7 @@ function generateUUID(productId) {
                 $.log(e);
                 $.msg("联通余额兑换失败", "详情", e);
             } finally {
+                $.msg("联通生成uuid结束", "", "");
             }
         });
 }
@@ -124,6 +126,7 @@ function exchangePrize(uuid) {
                 $.log(e);
                 $.msg("联通余额兑换失败", "详情", e);
             } finally {
+                $.msg("联通uuid兑换结束", "", "");
             }
         });
 }
@@ -147,6 +150,7 @@ function queryBalance() {
                 $.log(e);
                 $.msg("联通余额兑换失败", "详情", e);
             } finally {
+                $.msg("联通查询余额结束", "", "");
                 $.done();
             }
         });
