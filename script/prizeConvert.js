@@ -40,7 +40,7 @@ $.post({url:"https://act.10010.com/SigninApp/new_convert/prizeList",headers:head
         try {
             let res = JSON.parse(data);
             if (res.status !== '0000') {
-                $.msg("联通余额兑换", "查询余额失败", "");
+                $.msg("联通余额兑换", "查询余额失败", data);
                 $.log(data);
             } else {
                 // $.log("* 查询余额成功: " + JSON.stringify(res.data));

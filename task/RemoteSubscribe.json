@@ -50,6 +50,44 @@
             ]
         },
         {
+            "id": "teletemPrize",
+            "name": "联通APP兑换",
+            "keys":
+            [
+                "@Unicom.prizeConvert",
+                "@ChinaUnicom.10010v4.cookie"
+            ],
+            "descs_html":
+            [
+                "<h4 align=\"center\">脚本配置请查看<a href=\"https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/exchangePrize.js\">脚本注释</a></h4>"
+            ],
+            "settings":
+            [
+                {
+                    "id": "@prizeConvert.times",
+                    "name": "并发次数",
+                    "val": 3,
+                    "type": "number",
+                    "desc": ""
+                },
+                {
+                    "id": "@prizeConvert.denominations",
+                    "name": "兑换面额",
+                    "val": [3, 5, 10],
+                    "type": "array",
+                    "desc": ""
+                }
+            ],
+            "script": "https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/exchangePrize.js",
+            "author": "@Luqi",
+            "repo": "https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/exchangePrize.js",
+            "icons":
+            [
+                "https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png",
+                "https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png"
+            ]
+        },
+        {
             "id": "wps_luqi",
             "name": "WPS签到",
             "keys":
@@ -131,7 +169,7 @@
         },
         {
             "remark": "联通余额查询和兑换",
-            "config": "0 0 10,18 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/prizeConvert.js, tag=联通余额查询和兑换, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png, enabled=true",
+            "config": "0 0 10,18 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/exchangePrize.js, tag=联通余额查询和兑换, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png, enabled=true",
             "addons": ""
         },
         {

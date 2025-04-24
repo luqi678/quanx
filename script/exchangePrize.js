@@ -1,89 +1,30 @@
-﻿/*
-WPS_PC签到
+/*
+联通余额兑换脚本
 仅测试Quantumult-X，nodejs，其他自测
-2024-10-16 先这样写着能用，后期看情况再改
-
-脚本参考 @小 白脸
-https://t.me/NobyDa/896
-https://raw.githubusercontent.com/githubdulong/Script/master/WPS_checkin.js
-
-抓cookie(手机用qx，loon，surge等可以自动抓cookie，请自行配置)
-用手机或者电脑进入https://vip.wps.cn/home登录后，找到cookie里面的wps_sid，格式如下
-# 青龙环境变量     wps_pc_val = {"cookie":"wps_sid=xxxxxxxxxxxx"}
-
-======调试区|忽略======
-# ^https:\/\/(vip|account)(userinfo|\.wps\.cn\/p\/auth\/check)$ url script-request-header http://192.168.2.170:8080/wps.js
-======调试区|忽略======
-
+用于批量兑换之前生成的UUID
 ====================================
-[rewrite_local]
-^https:\/\/(vip|account)(userinfo|\.wps\.cn\/p\/auth\/check)$ url script-request-header https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/TeletemSign.js
-
 [task_local]
-1 0 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/TeletemSign.js, tag= WPS_PC签到, enabled=true
+1 0 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/exchangePrize.js, tag=联通余额兑换, enabled=true
 
 [mitm]
-hostname = *.wps.cn
+hostname = *.10010.com
 ====================================
- */
-const $ = new Env("联通日常签到");
+*/
 
-// 在pc环境测试直接写入值
-// $.data = {"@YaYa_10010.cookie": "@chavy_boxjs_userCfgs.httpapi222"};
-// $.writedata();
-// 建议这样写
-// $.setdata('xxx', _key);
-// $.writedata();
-
-//获取boxjs环境变量
-// 全量获取
-// const loaddata = $.loaddata();
-// console.log(loaddata);
-// const ckval = $.toObj($.loaddata());
-// 单key获取
-//const ckval = $.getdata(_key);
-//console.log(ckval);
-
-// $.is_debug = 'true-'
-// $.messages = [];
+const $ = new Env("联通余额兑换");
 const newCookie = $.getdata("@ChinaUnicom.10010v4.cookie");
 
+// 获取配置项，如果没有则使用默认值
+const defaultConfig = {
+    times: 3, // 默认并发次数
+    denominations: ['1', '3', '5', '10'] // 默认兑换面额
+};
+
+// 获取配置或使用默认值
+const concurrentTimes = parseInt($.getdata("@prizeConvert.times")) || defaultConfig.times;
+const exchangeDenominations = $.getdata("@prizeConvert.denominations") || defaultConfig.denominations;
+
 const cookie = newCookie;
-const signCookie = newCookie;
-const drawCookie = newCookie;
-
-const headerEcs = {
-    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 unicom{version:iphone_c@11.0800}',
-    'Accept': 'application/json, text/plain, */*',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Accept-Language': 'zh-CN,zh;q=0.9',
-    'Host': 'activity.10010.com',
-    'Connection': 'keep-alive',
-    'Cookie': cookie,
-    'Referer': 'https://img.client.10010.com/',
-};
-const headerPv = {
-    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 unicom{version:iphone_c@11.0800}',
-    'Accept': 'application/json, text/plain, */*',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Accept-Language': 'zh-CN,zh;q=0.9',
-    'Host': 'activity.10010.com',
-    'Connection': 'keep-alive',
-    'Cookie': signCookie,
-    'Referer': 'https://img.client.10010.com/',
-};
-
-const headerDraw = {
-    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 unicom{version:iphone_c@11.0800}',
-    'Accept': 'application/json, text/plain, */*',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Accept-Language': 'zh-CN,zh;q=0.9',
-    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    'Host': 'epay.10010.com',
-    'Cookie': drawCookie,
-    'Referer': 'https://epay.10010.com/ci-mcss-party-web/rainbow/?templateName=20241025QYCJ&bizFrom=225&bizChannelCode=225&channelType=QDQP&rptid=rpt-e89934a9f9974c85b4aec9e184bd6609-prx',
-};
-
 const headerPrize = {
     'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 unicom{version:iphone_c@12.0200}',
     'Accept': 'application/json, text/plain, */*',
@@ -96,36 +37,14 @@ const headerPrize = {
     'Referer': 'https://img.client.10010.com/',
 };
 
-
-// 每日签到
-/*
-$.post({url:"https://activity.10010.com/sixPalaceGridTurntableLottery/signin/daySign",headers:headerPv,
-        method: 'POST'},
-    (err, resp, data) => {
-        try {
-            let res = JSON.parse(data);
-            if (res.code !== '0000' && res.code !== '0002') {
-                $.msg("联通签到失败", "每日签到结束", "");
-                $.log(data);
-            } else {
-                $.log( "* 每日签到成功  " + (res.code === '0000' ? res.data.statusDesc + res.data.redSignMessage : res.desc));
-            }
-        } catch (e) {
-            $.log(e);
-            $.msg("联通签到失败", "详情", e); // Error!e
-        } finally {
-        }
-    });
-*/
-
-// 生成抢购uuid 为后面抢购做准备
-async function queryPrizeList() {
+// 查询余额
+function queryBalance() {
     return new Promise((resolve, reject) => {
         $.post({
-            url: "https://act.10010.com/SigninApp/new_convert/prizeList",
+            url: "https://act.10010.com/SigninApp/convert/getTelephone",
             headers: headerPrize,
             method: 'POST'
-        }, async (err, resp, data) => {
+        }, (err, resp, data) => {
             try {
                 let res = JSON.parse(data);
                 if (res.status !== '0000') {
@@ -133,25 +52,8 @@ async function queryPrizeList() {
                     $.log(data);
                     reject(err);
                 } else {
-                    const tabItems = res.data.datails.tabItems;
-                    let targetProducts = [];
-                    
-                    // 遍历所有时间段
-                    for (const tab of tabItems) {
-                        // 找到"即将开始"的时间段
-                        if (tab.state === "即将开始") {
-                            // 遍历该时间段的所有商品
-                            for (const product of tab.timeLimitQuanListData) {
-                                // 找到话费充值抵扣券
-                                if (product.product_name.includes("元话费充值抵扣券") && product.stockSurplus > 0) {
-                                    targetProducts.push(product);
-                                    $.log("* 找到目标商品: " + product.product_name);
-                                    await generateUUID(product.product_id, product.product_name);
-                                }
-                            }
-                        }
-                    }
-                    resolve(targetProducts);
+                    $.log("* 当前余额: " + res.data.telephone);
+                    resolve(res.data.telephone);
                 }
             } catch (e) {
                 $.log(e);
@@ -162,220 +64,133 @@ async function queryPrizeList() {
     });
 }
 
-// 生成抢购uuid
-function generateUUID(productId, product_name) {
+// uuid兑换
+function exchangePrize(uuid) {
     return new Promise((resolve, reject) => {
         $.post({
-            url: "https://act.10010.com/SigninApp/convert/prizeConvert",
+            url: "https://act.10010.com/SigninApp/convert/prizeConvertResult",
             headers: headerPrize,
-            body: "product_id=" + productId,
+            body: "uuid=" + uuid,
             method: 'POST'
         }, (err, resp, data) => {
             try {
                 let res = JSON.parse(data);
                 if (res.status !== '0000') {
-                    $.msg("联通余额兑换", "生成uuid失败", "");
-                    $.log(data);
-                    reject(err);
+                    $.log("兑换失败: " + data);
+                    resolve(false);
                 } else {
-                    $.log("* 生成uuid成功: " + res.data.uuid);
-                    // 获取到uuid后不立即执行兑换，而是保存后为后面抢购做准备
-                    let key = "@Unicom.prizeConvert.uuid" + product_name.replace("元话费充值抵扣券", "");
-                    $.setdata(res.data.uuid, key);
-                    resolve(res.data.uuid);
+                    $.log("* 兑换成功: " + JSON.stringify(res.data));
+                    resolve(true);
                 }
             } catch (e) {
                 $.log(e);
-                $.msg("联通余额兑换失败", "详情", e);
                 reject(e);
             }
         });
     });
 }
 
-// 每日登陆领取抽奖
-async function dailyLogin() {
-    return new Promise((resolve, reject) => {
-        $.post({
-            url: "https://epay.10010.com/ci-mcss-party-front/v1/rainbow/unifyDraw?activityId=BKQY2024CJ03&isBigActivity=1&bigActivityId=&bizFrom=225",
-            headers: headerDraw,
-            method: 'POST'
-        }, (err, resp, data) => {
-            try {
-                let res = JSON.parse(data);
-                if (res.code !== '0000') {
-                    $.msg("联通签到失败", "每日登陆结束", "");
-                    $.log(data);
-                    reject(err);
-                } else {
-                    $.log("*  每日登陆成功  " + res.msg + res.txId);
-                    resolve(res);
-                }
-            } catch (e) {
-                $.log(e);
-                $.msg("联通签到失败", "详情", e);
-                reject(e);
-            }
-        });
-    });
+// 获取所有保存的UUID
+function getAllUUIDs() {
+    const uuids = [];
+    for (const denomination of exchangeDenominations) {
+        const key = "@Unicom.prizeConvert.uuid" + denomination;
+        const uuid = $.getdata(key);
+        if (uuid) {
+            uuids.push({
+                denomination: denomination,
+                uuid: uuid
+            });
+        }
+    }
+    return uuids;
 }
 
-// 任务签到函数
-async function taskSign() {
-    return new Promise((resolve, reject) => {
-        $.post({
-            url: "https://activity.10010.com/sixPalaceGridTurntableLottery/task/taskList?type=2",
-            headers: headerEcs,
-            method: 'GET'
-        }, async (err, resp, data) => {
-            try {
-                let res = JSON.parse(data);
-                if (res.code === '0000') {
-                    //循环任务列表
-                    for (const item of res.data.tagList) {
-                        $.log("开始" + item.tagName);
-                        for (const task of item.taskDTOList) {
-                            await completeTask(task);
-                        }
-                    }
-                    resolve();
-                } else {
-                    $.msg("联通签到失败", "获取任务列表失败", data);
-                    reject(err);
+// 并发兑换
+async function batchExchange(uuids) {
+    const results = [];
+    
+    // 对每个UUID创建指定次数的并发任务
+    for (const {denomination, uuid} of uuids) {
+        const tasks = [];
+        
+        // 创建配置的次数的相同任务
+        for (let i = 0; i < concurrentTimes; i++) {
+            const task = async () => {
+                try {
+                    $.log(`[并发${i + 1}] ${denomination}元话费券开始兑换，UUID: ${uuid}`);
+                    const success = await exchangePrize(uuid);
+                    const result = {denomination, uuid, success, attempt: i + 1};
+                    results.push(result);
+                    $.log(`[并发${i + 1}] ${denomination}元话费券兑换${success ? '成功' : '失败'}`);
+                    return result;
+                } catch (e) {
+                    $.log(`[并发${i + 1}] ${denomination}元话费券兑换出错: ${e}`);
+                    return {denomination, uuid, success: false, attempt: i + 1};
                 }
-            } catch (e) {
-                $.log(e);
-                $.msg("联通签到失败", "详情", e);
-                reject(e);
-            }
-        });
-    });
+            };
+            tasks.push(task());
+        }
+        
+        $.log(`\n[开始兑换] ${denomination}元话费券，并发执行${concurrentTimes}次`);
+        await Promise.all(tasks);
+        $.log(`[完成兑换] ${denomination}元话费券的${concurrentTimes}次并发请求已完成\n`);
+    }
+
+    return results;
 }
 
 // 主函数
 async function main() {
     try {
-        // 先执行查询奖品列表
-        await queryPrizeList();
         
-        // 执行每日登录
-        await dailyLogin();
+        // 获取所有保存的UUID
+        const uuids = getAllUUIDs();
+        if (uuids.length === 0) {
+            $.msg("联通余额兑换", "没有找到可兑换的UUID", "");
+            return;
+        }
         
-        // 执行任务签到
-        await taskSign();
+        $.log(`\n[开始兑换] 共找到${uuids.length}个UUID待兑换`);
+        $.log(`[兑换配置] 每个UUID并发执行${concurrentTimes}次`);
+        $.log(`[兑换面额] ${exchangeDenominations.join(',')}元`);
+        
+        // 批量兑换
+        const results = await batchExchange(uuids);
+        
+        // 获取最终余额
+        const finalBalance = await queryBalance();
+        
+        // 统计结果
+        const successCount = results.filter(r => r.success).length;
+        const totalAttempts = results.length;
+        const totalAmount = results.filter(r => r.success)
+            .reduce((sum, r) => sum + parseInt(r.denomination), 0);
+            
+        // 发送通知
+        const summary = `
+最终余额: ${finalBalance}
+兑换成功: ${successCount}/${totalAttempts}
+兑换金额: ${totalAmount}元
+并发配置: ${concurrentTimes}次/UUID
+兑换面额: ${exchangeDenominations.join(',')}元
+`;
+        $.msg(
+            "联通余额兑换完成", 
+            `成功兑换: ${successCount}/${totalAttempts}`,
+            summary
+        );
+        
     } catch (e) {
         $.log(e);
+        $.msg("联通余额兑换", "执行失败", e.message);
     } finally {
         $.done();
     }
 }
 
-// 启动主函数
-main();
-
-async function completeTask({id, taskName, buttonName, orderId}) {
-    if (buttonName === "去领取") {
-        //领取奖励
-        let reward = await postPromise({
-            url: `https://activity.10010.com/sixPalaceGridTurntableLottery/task/getTaskReward?taskId=${id}`,
-            headers: headerPv,
-            method: 'GET'
-        });
-        let rewardObj = JSON.parse(reward);
-        if (rewardObj.code === '0000') {
-            $.log("*  " + taskName + "  签到" + rewardObj.data.statusDesc + (rewardObj.data.code === '0000' ? rewardObj.data.prizeNameRed : rewardObj.data.desc));
-        } else {
-            $.log(reward);
-        }
-    } else if (buttonName === "已完成") {
-        $.log("*  " + taskName + "  签到已完成");
-    } else {
-
-        let complete = await postPromise({
-            url: `https://activity.10010.com/sixPalaceGridTurntableLottery/task/completeTask?taskId=${id}&orderId=&systemCode=QDQD`,
-            headers: headerEcs,
-            method: 'GET'
-        });
-        let completeObj = JSON.parse(complete);
-        if (completeObj.code === '0000' || completeObj.code === '0311') {
-            //完成任务 领取奖励
-            await setTimeout(() => {
-                $.log("*  等待两秒");
-            }, 1000); // 2000 毫秒 = 2 秒
-            let reward = await postPromise({
-                url: `https://activity.10010.com/sixPalaceGridTurntableLottery/task/getTaskReward?taskId=${id}`,
-                headers: headerPv,
-                method: 'GET'
-            })
-            let rewardObj = JSON.parse(reward);
-            if (rewardObj.code === '0000') {
-                $.log("*  " + taskName + "  签到" + rewardObj.data.statusDesc + (rewardObj.data.code === '0000' ? rewardObj.data.prizeNameRed : rewardObj.data.desc));
-            } else {
-                $.log(reward);
-            }
-        } else {
-            $.log("*  " + taskName + "  签到任务失败" + completeObj.desc);
-        }
-
-        await $.post({
-                url: `https://activity.10010.com/sixPalaceGridTurntableLottery/task/completeTask?taskId=${id}&orderId=&systemCode=QDQD`,
-                headers: headerEcs,
-                method: 'GET'
-            },
-            async (err, resp, data) => {
-                try {
-                    let res = JSON.parse(data);
-                    if (res.code === '0000' || res.code === '0311') {
-                        //完成任务 领取奖励
-                        await setTimeout(() => {
-                            $.log("*  等待两秒");
-                        }, 2000); // 2000 毫秒 = 2 秒
-
-                        await $.post({
-                                url: `https://activity.10010.com/sixPalaceGridTurntableLottery/task/getTaskReward?taskId=${id}`,
-                                headers: headerPv,
-                                method: 'GET'
-                            },
-                            (err, resp, data2) => {
-                                try {
-                                    let res2 = JSON.parse(data2);
-                                    if (res2.code === '0000') {
-                                        $.log("*  " + taskName + "  签到" + res2.data.statusDesc + (res2.data.code === '0000' ? res2.data.prizeNameRed : res2.data.desc));
-                                    } else {
-                                        $.log(res2);
-                                    }
-                                } catch (e) {
-                                    $.log(e);
-                                    $.msg("联通签到失败", "详情", e); // Error!e
-                                } finally {
-                                }
-                            })
-                    } else {
-                        $.log("*  " + taskName + "  签到任务失败" + res.desc);
-                    }
-                } catch (e) {
-                    $.log(e);
-                    $.msg("联通签到失败", "详情", e); // Error!e
-                } finally {
-                }
-            });
-    }
-}
-
-
-async function postPromise(request) {
-    return new Promise((resolve, reject) => {
-        $.post(request, (err, resp, data) => {
-            if (err) {
-                reject(err); // 如果出错，Promise reject
-            } else {
-                resolve(data); // 成功时，Promise resolve 返回响应和正文
-            }
-        });
-    });
-}
-
-
+// 启动脚本
+main(); 
 
 function Env(name, opts) {
     class Http {
