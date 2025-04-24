@@ -54,7 +54,10 @@
             "name": "联通APP兑换",
             "keys":
             [
-                "@Unicom.prizeConvert",
+                "@UnicomPrizeConvert.uuid1",
+                "@UnicomPrizeConvert.uuid3",
+                "@UnicomPrizeConvert.uuid5",
+                "@UnicomPrizeConvert.uuid10",
                 "@ChinaUnicom.10010v4.cookie"
             ],
             "descs_html":

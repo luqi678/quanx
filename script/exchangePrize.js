@@ -94,7 +94,7 @@ function exchangePrize(uuid) {
 function getAllUUIDs() {
     const uuids = [];
     for (const denomination of exchangeDenominations) {
-        const key = "@Unicom.prizeConvert.uuid" + denomination;
+        const key = "@UnicomPrizeConvert.uuid" + denomination;
         const uuid = $.getdata(key);
         if (uuid) {
             uuids.push({
@@ -153,7 +153,6 @@ async function main() {
         
         $.log(`\n[开始兑换] 共找到${uuids.length}个UUID待兑换`);
         $.log(`[兑换配置] 每个UUID并发执行${concurrentTimes}次`);
-        $.log(`[兑换面额] ${exchangeDenominations.join(',')}元`);
         
         // 批量兑换
         const results = await batchExchange(uuids);
@@ -173,7 +172,6 @@ async function main() {
 兑换成功: ${successCount}/${totalAttempts}
 兑换金额: ${totalAmount}元
 并发配置: ${concurrentTimes}次/UUID
-兑换面额: ${exchangeDenominations.join(',')}元
 `;
         $.msg(
             "联通余额兑换完成", 

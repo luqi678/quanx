@@ -180,7 +180,7 @@ function generateUUID(productId, product_name) {
                 } else {
                     $.log("* 生成uuid成功: " + res.data.uuid);
                     // 获取到uuid后不立即执行兑换，而是保存后为后面抢购做准备
-                    let key = "@Unicom.prizeConvert.uuid" + product_name.replace("元话费充值抵扣券", "");
+                    let key = "@UnicomPrizeConvert.uuid" + product_name.replace("元话费充值抵扣券", "");
                     $.setdata(res.data.uuid, key);
                     resolve(res.data.uuid);
                 }
