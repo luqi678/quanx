@@ -51,7 +51,7 @@ $.post({url:"https://act.10010.com/SigninApp/new_convert/prizeList",headers:head
                 // 遍历所有时间段
                 for (const tab of tabItems) {
                     // 找到"即将开始"的时间段
-                    if (tab.state === "即将开始") {
+                    if (tab.state !== "已结束" || tab.state !== "即将开始") {
                         // 遍历该时间段的所有商品
                         for (const product of tab.timeLimitQuanListData) {
                             // 找到10元话费充值抵扣券

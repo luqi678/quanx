@@ -131,7 +131,7 @@
         },
         {
             "remark": "联通余额查询和兑换",
-            "config": "0 0 10/18 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/prizeConvert.js, tag=联通余额查询和兑换, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png, enabled=true",
+            "config": "0 0 10,18 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/prizeConvert.js, tag=联通余额查询和兑换, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png, enabled=true",
             "addons": ""
         },
         {
