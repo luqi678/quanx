@@ -167,17 +167,17 @@
         },
         {
             "remark": "联通APP日常签到",
-            "config": "0 2 6 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/TeletemSign.js, tag=联通APP日常签到, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png, enabled=true",
+            "config": "0 50 9 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/TeletemSign.js, tag=联通APP日常签到, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png, enabled=true",
             "addons": ""
         },
         {
             "remark": "联通余额查询和兑换--开始前",
-            "config": "58-59 59 9,17 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/exchangePrize.js, tag=联通余额查询和兑换, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png, enabled=true",
+            "config": "58-59 59 9,17 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/exchangePrize.js, tag=联通余额查询和兑换--开始前, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png, enabled=true",
             "addons": ""
         },
         {
             "remark": "联通余额查询和兑换--开始后",
-            "config": "0-5 0 10,18 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/exchangePrize.js, tag=联通余额查询和兑换, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png, enabled=true",
+            "config": "0-5 0 10,18 * * * https://raw.githubusercontent.com/luqi678/quanx/refs/heads/main/script/exchangePrize.js, tag=联通余额查询和兑换--开始后, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/10010.png, enabled=true",
             "addons": ""
         },
         {
