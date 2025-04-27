@@ -98,7 +98,6 @@ const headerPrize = {
 
 
 // 每日签到
-/*
 $.post({url:"https://activity.10010.com/sixPalaceGridTurntableLottery/signin/daySign",headers:headerPv,
         method: 'POST'},
     (err, resp, data) => {
@@ -116,7 +115,6 @@ $.post({url:"https://activity.10010.com/sixPalaceGridTurntableLottery/signin/day
         } finally {
         }
     });
-*/
 
 // 生成抢购uuid 为后面抢购做准备
 async function queryPrizeList() {
