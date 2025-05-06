@@ -116,80 +116,7 @@ $.post({url:"https://activity.10010.com/sixPalaceGridTurntableLottery/signin/day
         }
     });
 
-// 生成抢购uuid 为后面抢购做准备
-async function queryPrizeList() {
-    return new Promise((resolve, reject) => {
-        $.post({
-            url: "https://act.10010.com/SigninApp/new_convert/prizeList",
-            headers: headerPrize,
-            method: 'POST'
-        }, async (err, resp, data) => {
-            try {
-                let res = JSON.parse(data);
-                if (res.status !== '0000') {
-                    $.msg("联通余额兑换", "查询余额失败", "");
-                    $.log(data);
-                    reject(err);
-                } else {
-                    const tabItems = res.data.datails.tabItems;
-                    let targetProducts = [];
-                    
-                    // 遍历所有时间段
-                    for (const tab of tabItems) {
-                        // 找到"即将开始"的时间段
-                        if (tab.state === "即将开始") {
-                            // 遍历该时间段的所有商品
-                            for (const product of tab.timeLimitQuanListData) {
-                                // 找到话费充值抵扣券
-                                if (product.product_name.includes("元话费充值抵扣券") && product.stockSurplus > 0) {
-                                    targetProducts.push(product);
-                                    $.log("* 找到目标商品: " + product.product_name);
-                                    await generateUUID(product.product_id, product.product_name);
-                                }
-                            }
-                        }
-                    }
-                    resolve(targetProducts);
-                }
-            } catch (e) {
-                $.log(e);
-                $.msg("联通余额兑换失败", "详情", e);
-                reject(e);
-            }
-        });
-    });
-}
 
-// 生成抢购uuid
-function generateUUID(productId, product_name) {
-    return new Promise((resolve, reject) => {
-        $.post({
-            url: "https://act.10010.com/SigninApp/convert/prizeConvert",
-            headers: headerPrize,
-            body: "product_id=" + productId,
-            method: 'POST'
-        }, (err, resp, data) => {
-            try {
-                let res = JSON.parse(data);
-                if (res.status !== '0000') {
-                    $.msg("联通余额兑换", "生成uuid失败", "");
-                    $.log(data);
-                    reject(err);
-                } else {
-                    $.log("* 生成uuid成功: " + res.data.uuid);
-                    // 获取到uuid后不立即执行兑换，而是保存后为后面抢购做准备
-                    let key = "@UnicomPrizeConvert.uuid" + product_name.replace("元话费充值抵扣券", "");
-                    $.setdata(res.data.uuid, key);
-                    resolve(res.data.uuid);
-                }
-            } catch (e) {
-                $.log(e);
-                $.msg("联通余额兑换失败", "详情", e);
-                reject(e);
-            }
-        });
-    });
-}
 
 // 每日登陆领取抽奖
 async function dailyLogin() {
@@ -253,9 +180,6 @@ async function taskSign() {
 // 主函数
 async function main() {
     try {
-        // 先执行查询奖品列表
-        await queryPrizeList();
-        
         // 执行每日登录
         await dailyLogin();
         
